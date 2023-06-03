@@ -7,7 +7,7 @@
         label="Youtube Link"
         v-model="link"
         :error="!isValid"
-        error-message="Not a valid Youtub link!"
+        error-message="Not a valid Youtube link!"
       />
       <q-btn :disable="!isValid || this.link === ''" @click="downloadVideo">
         Download Video
