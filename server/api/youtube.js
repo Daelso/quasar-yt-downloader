@@ -19,8 +19,12 @@ router.route("/convertVideo").post(async (req, res) => {
     },
   };
 
-  const test = await axios.request(configuration);
-  res.status(200).send(test.data);
+  try {
+    const response = await axios.request(configuration);
+    res.status(200).send(response.data);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 module.exports = router;
