@@ -1,12 +1,4 @@
-# quasar yt downloader (quasar-yt-downloader)
-
-Requires https://rapidapi.com/ytjar/api/youtube-mp36
-
-Create a .env file with the rapid API host name and API key
-
-API_KEY=YOUR_KEY
-
-API_HOST=youtube-mp36.p.rapidapi.com
+# quasar Youtube downloader (quasar-yt-downloader)
 
 ## Install the dependencies
 ```bash
@@ -15,9 +7,11 @@ yarn
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Start your client and server
 ```bash
-quasar dev
+npm run dev
+
+npm run serverStart
 ```
 
 
