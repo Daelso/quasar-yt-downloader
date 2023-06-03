@@ -21,6 +21,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "IndexPage",
+
   data() {
     return {
       link: "",
@@ -29,6 +30,9 @@ export default defineComponent({
   methods: {
     async convertVideo() {
       try {
+        this.$q.loading.show({
+          message: "Downloading your video...",
+        });
         const title = await this.$axios.post(
           "http://localhost:5000/youtube/getTitle",
           { link: this.link }
@@ -48,8 +52,13 @@ export default defineComponent({
         document.body.appendChild(link);
         link.click();
       } catch (err) {
-        console.log(err.message);
+        this.$q.notify({
+          type: "negative",
+          message:
+            "Failed to download your video! Try again or test another video.",
+        });
       }
+      this.$q.loading.hide();
     },
   },
 
