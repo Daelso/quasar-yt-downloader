@@ -32,7 +32,7 @@ router.route("/downloadVideo").post(async (req, res) => {
       quality: "highestvideo", // Select the highest quality
       filter: "videoandaudio", // We want video and audio
     };
-    const info = await ytdl.getInfo(videoUrl);
+    const info = await ytdl.getInfo(videoUrl); //queries youtube video info
 
     const title = info.videoDetails.title;
 

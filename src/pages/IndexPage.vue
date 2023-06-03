@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="input-container">
-      <h2>Convert any YouTube Video to MP3</h2>
+      <h2>Download any YouTube video in MP4 format</h2>
       <q-input
         filled
         label="Youtube Link"
@@ -9,8 +9,8 @@
         :error="!isValid"
         error-message="Not a valid Youtub link!"
       />
-      <q-btn :disable="!isValid || this.link === ''" @click="convertVideo">
-        Convert Video
+      <q-btn :disable="!isValid || this.link === ''" @click="downloadVideo">
+        Download Video
       </q-btn>
     </div>
   </q-page>
@@ -28,7 +28,7 @@ export default defineComponent({
     };
   },
   methods: {
-    async convertVideo() {
+    async downloadVideo() {
       try {
         this.$q.loading.show({
           message: "Downloading your video...",
