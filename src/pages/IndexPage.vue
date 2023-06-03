@@ -29,11 +29,24 @@ export default defineComponent({
   methods: {
     async convertVideo() {
       try {
-        const video = await this.$axios.post(
-          "http://localhost:5000/youtube/convertVideo",
-          this.link
+        const title = await this.$axios.post(
+          "http://localhost:5000/youtube/getTitle",
+          { link: this.link }
         );
-        console.log(video.data);
+
+        const video = await this.$axios.post(
+          "http://localhost:5000/youtube/downloadVideo",
+          { link: this.link },
+          {
+            responseType: "blob",
+          }
+        );
+        const url = window.URL.createObjectURL(new Blob([video.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${title.data}.mp4`);
+        document.body.appendChild(link);
+        link.click();
       } catch (err) {
         console.log(err.message);
       }

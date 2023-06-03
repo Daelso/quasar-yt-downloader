@@ -1,29 +1,53 @@
 const express = require("express");
-const axios = require("axios");
 let router = express.Router();
+const ytdl = require("ytdl-core");
+const fs = require("fs");
+const path = require("path");
 
 require("dotenv").config();
 
 //Route is base/youtube
 
-router.route("/convertVideo").post(async (req, res) => {
-  const vidId = Object.values(req.body)[0];
-
-  const configuration = {
-    method: "GET",
-    url: "https://youtube-mp36.p.rapidapi.com/dl",
-    params: { id: vidId },
-    headers: {
-      "X-RapidAPI-Key": process.env.API_KEY,
-      "X-RapidAPI-Host": process.env.API_HOST,
-    },
-  };
-
+router.route("/getTitle").post(async (req, res) => {
   try {
-    const response = await axios.request(configuration);
-    res.status(200).send(response.data);
+    const videoUrl = req.body.link;
+    console.log(videoUrl);
+
+    const info = await ytdl.getInfo(videoUrl);
+
+    const title = info.videoDetails.title;
+
+    res.status(200).send(title);
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error("Error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.route("/downloadVideo").post(async (req, res) => {
+  try {
+    const videoUrl = req.body.link;
+
+    const options = {
+      quality: "highestvideo", // Select the highest quality
+      filter: "videoandaudio", // We want video and audio
+    };
+    const info = await ytdl.getInfo(videoUrl);
+
+    const title = info.videoDetails.title;
+
+    const videoPath = path.join(__dirname, "temp", `${title}.mp4`); // Specify the path to save the video
+    const videoWriteStream = fs.createWriteStream(videoPath); //create the writestream
+    ytdl(videoUrl, options).pipe(videoWriteStream); //send it dowwwwn
+
+    videoWriteStream.on("finish", () => {
+      res.download(videoPath, `${title}.mp4`, () => {
+        fs.unlinkSync(videoPath); // Delete the temporary file after download is complete
+      });
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
