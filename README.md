@@ -5,6 +5,7 @@ Requires https://rapidapi.com/ytjar/api/youtube-mp36
 Create a .env file with the rapid API host name and API key
 
 API_KEY=YOUR_KEY
+
 API_HOST=youtube-mp36.p.rapidapi.com
 
 ## Install the dependencies
