@@ -1,5 +1,7 @@
 # quasar Youtube downloader (quasar-yt-downloader)
 
+Should be ready to use locally out of the box, may require some tweaks to the server.js if you want to deploy it to heroku or vercel/something.
+
 ## Install the dependencies
 ```bash
 yarn
